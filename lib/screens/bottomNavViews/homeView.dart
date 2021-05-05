@@ -4,13 +4,10 @@ import 'package:final_year_project/reusableComponents/lodingbar.dart';
 import 'package:final_year_project/reusableComponents/sizing.dart';
 import 'package:final_year_project/reusableComponents/textStyleForOrders.dart';
 import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
-import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
-import 'package:provider/provider.dart';
 import '../profileScreen.dart';
-
 
 class Home extends StatefulWidget {
   @override
@@ -18,7 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // CurrentUserIdState idState;
   SharePrefService service = SharePrefService();
   ProviderProfilesController controller = Get.put(ProviderProfilesController());
 
@@ -31,8 +27,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // idState = Provider.of<CurrentUserIdState>(context);
-    //service.getcurrentUserIdFromSp(idState);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -53,10 +47,10 @@ class _HomeState extends State<Home> {
                   children: [
                     Flexible(
                         child: Text(
-                          'Mudassar Maqbool',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )),
+                      'Mudassar Maqbool',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
                     Stack(
                       children: [
                         Icon(
@@ -112,14 +106,13 @@ class _HomeState extends State<Home> {
                                   flex: 1,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         '4.2',
                                         style:
-                                        OrdersTextStyle.statisticsStyle(),
+                                            OrdersTextStyle.statisticsStyle(),
                                       ),
                                       Text(
                                         'Ratings',
@@ -133,9 +126,8 @@ class _HomeState extends State<Home> {
                                   flex: 1,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text('3',
                                           style: OrdersTextStyle
@@ -152,9 +144,8 @@ class _HomeState extends State<Home> {
                                   flex: 1,
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text('4',
                                           style: OrdersTextStyle
@@ -168,13 +159,6 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
 
-                                // CircleAvatar(
-                                //
-                                //   maxRadius: 30,
-                                //
-                                //   backgroundImage: NetworkImage(
-                                //       'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg'),
-                                // )
                               ],
                             ),
                           ],
@@ -193,10 +177,7 @@ class _HomeState extends State<Home> {
                   elevation: 5,
                   child: Container(
                       height: Sizing.heightMultiplier * 28,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -214,13 +195,12 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Active',
                                       style: OrdersTextStyle.ordersStyle()),
                                   Text('0',
-                                      style:
-                                      OrdersTextStyle.statisticsStyle())
+                                      style: OrdersTextStyle.statisticsStyle())
                                 ],
                               ),
                             ),
@@ -228,13 +208,12 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Completed',
                                       style: OrdersTextStyle.ordersStyle()),
                                   Text('2',
-                                      style:
-                                      OrdersTextStyle.statisticsStyle())
+                                      style: OrdersTextStyle.statisticsStyle())
                                 ],
                               ),
                             ),
@@ -242,13 +221,12 @@ class _HomeState extends State<Home> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text('Cancelled',
                                       style: OrdersTextStyle.ordersStyle()),
                                   Text('1',
-                                      style:
-                                      OrdersTextStyle.statisticsStyle())
+                                      style: OrdersTextStyle.statisticsStyle())
                                 ],
                               ),
                             ),
@@ -283,19 +261,16 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
                 style: TextButton.styleFrom(
-                    minimumSize: Size(150, 45),
-                    primary: CustomColors.lightRed),
+                    minimumSize: Size(150, 45), primary: CustomColors.lightRed),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ProfileScreen(
-                                currentUserId: controller.id.value)),
+                            ProfileScreen(currentUserId: controller.id.value)),
                   );
                 },
                 child: Text('Add Service')),
-
           ),
           Expanded(
             child: Obx(() {
@@ -305,101 +280,99 @@ class _HomeState extends State<Home> {
                 return controller.profilesList.length == 0
                     ? Center(child: Text("No Service Found"))
                     : ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: controller.profilesList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(5))),
-                      clipBehavior: Clip.antiAlias,
-                      child: Container(
-                        height: 100,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Container(
-                                  width: 100,
-                                  // height: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5)),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              'http://192.168.43.113:4000/${controller
-                                                  .profilesList[index]
-                                                  .shopImage}'),
-                                          fit: BoxFit.cover))),
-                            ),
-                            Flexible(
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      controller
-                                          .profilesList[index].shopName,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    Text(
-                                        controller
-                                            .profilesList[index].address,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: Colors.black54)),
-                                    Text('9:AM-10:PM Mon-Sat',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: OrdersTextStyle
-                                            .servicesTextStyle()),
-                                    Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Container(
+                        physics: ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: controller.profilesList.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5))),
+                            clipBehavior: Clip.antiAlias,
+                            child: Container(
+                              height: 100,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                        width: 100,
+                                        // height: 100,
                                         decoration: BoxDecoration(
-                                          color: CustomColors.lightRed,
-                                          //   border: Border.all(width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                          const EdgeInsets.all(3.0),
-                                          child: Text(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    'http://192.168.43.113:4000/${controller.profilesList[index].shopImage}'),
+                                                fit: BoxFit.cover))),
+                                  ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
                                             controller
-                                                .profilesList[index]
-                                                .providercategories
-                                                .providerCatName,
+                                                .profilesList[index].shopName,
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight:
-                                                FontWeight.normal),
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
                                           ),
-                                        ),
-                                        // height: 25,
-                                        // width: 70,
+                                          Text(
+                                              controller
+                                                  .profilesList[index].address,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.black54)),
+                                          Text('9:AM-10:PM Mon-Sat',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: OrdersTextStyle
+                                                  .servicesTextStyle()),
+                                          Align(
+                                            alignment: Alignment.bottomLeft,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: CustomColors.lightRed,
+                                                //   border: Border.all(width: 1),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(3.0),
+                                                child: Text(
+                                                  controller
+                                                      .profilesList[index]
+                                                      .providercategories
+                                                      .providerCatName,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ),
+                                              ),
+                                              // height: 25,
+                                              // width: 70,
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+                            ),
+                          );
+                        },
+                      );
               }
             }),
           )
