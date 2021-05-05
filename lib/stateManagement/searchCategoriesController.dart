@@ -8,15 +8,12 @@ class SearchCategoriescontroller extends GetxController {
   var categoriesList = <Categories>[].obs as List<Categories>;
   var tempcategoriesList = <Categories>[].obs as List<Categories>;
 
-
-@override
+  @override
   void refresh() {
-    // TODO: implement refresh
     super.refresh();
-  //  getCategories();
+
     fetchCategories(searhtag.value);
   }
-
 
   void fetchCategories(String tag) async {
     isLoading(true);
@@ -29,6 +26,7 @@ class SearchCategoriescontroller extends GetxController {
       isLoading(false);
     }
   }
+
   void getCategories() async {
     isLoading(true);
     try {

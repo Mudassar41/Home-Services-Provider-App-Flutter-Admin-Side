@@ -86,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     idState = Provider.of<CurrentUserIdState>(context);
-    service.getcurrentUserIdFromSp(idState);
+    //service.getcurrentUserIdFromSp(idState);
     providr = Provider.of<PhoneAuthProvidr>(context);
     progressDialog = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);

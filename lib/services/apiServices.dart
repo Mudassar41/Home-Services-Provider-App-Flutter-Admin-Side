@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:final_year_project/services/sharedPrefService.dart';
+import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
 import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
 import 'package:final_year_project/animations/rotationAnimation.dart';
 import 'package:final_year_project/models/profile.dart';
@@ -16,7 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 
+
 class ApiServices {
+  //ProviderProfilesController controller=Get.find();
   static List<Categories> dogsBreedList = <Categories>[];
   static List<Categories> tempList = <Categories>[];
   static bool isLoading = false;
@@ -64,11 +67,7 @@ class ApiServices {
 
   Future<String> postPrvidersProfilesData(ProfileModel profileModel,
       ProgressDialog progressDialog, File image) async {
-    //  var imagename = image.path.split('/').last;
-    // String base64Image = base64Encode(image.readAsBytesSync());
-    // print(base64Image);
-    // List<int> imageBytes = image.readAsBytesSync();
-    // String baseimage = base64Encode(imageBytes);
+
     String res = '';
     progressDialog.style(
         progressWidget: RotationAnimation(20, 20),

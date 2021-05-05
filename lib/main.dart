@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:final_year_project/stateManagement/databaseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:final_year_project/stateManagement/providers/authState.dart';
 import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
       builder: (context, constraints) {
         return OrientationBuilder(builder: (context, orientaion) {
           Sizing().init(constraints, orientaion);
-          return MaterialApp(
+          return GetMaterialApp(
               theme: ThemeData(
                   fontFamily: 'Candal',
                   primaryColor: Colors.white,

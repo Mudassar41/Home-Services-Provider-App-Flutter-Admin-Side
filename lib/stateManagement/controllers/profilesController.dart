@@ -1,30 +1,31 @@
 import 'package:final_year_project/models/profile.dart';
 import 'package:final_year_project/services/apiServices.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class ProviderProfilesController extends GetxController {
+  var id = ''.obs;
   var isLoading = true.obs;
   var profilesList = <ProfileModel>[].obs as List<ProfileModel>;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    getProfilesData();
+  // @override
+  // void onInit() {
+  //   print('id is ${id.value}');
+  //   // TODO: implement onInit
+  //   super.onInit();
+  //   getProfilesData(id.value);
+  // }
+ @override
+  void refresh() {
+    // TODO: implement refresh
+    super.refresh();
+    getProfilesData(id.value);
   }
+      
 
-  void getProfilesData() async {
-    dynamic currentUid;
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    if (auth.currentUser != null) {
-      print(auth.currentUser.uid);
-      currentUid = auth.currentUser.uid;
-    }
+  void getProfilesData(String id) async {
     isLoading(true);
     try {
-      var list = await ApiServices.getProvidersprofileData(currentUid);
+      var list = await ApiServices.getProvidersprofileData(id);
       if (list != null) {
         profilesList = list;
       }
@@ -32,4 +33,6 @@ class ProviderProfilesController extends GetxController {
       isLoading(false);
     }
   }
+
+ 
 }
