@@ -10,6 +10,7 @@ class OrdersTextStyle {
     return TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
   }
   static statisticsyTextStyle() {
+
     return TextStyle( color: Colors.black54);
   }
   static servicesTextStyle() {

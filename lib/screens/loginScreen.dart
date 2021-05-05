@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     idState = Provider.of<CurrentUserIdState>(context);
- //   service.getcurrentUserIdFromSp(idState);
+
     progressDialog = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
     return SafeArea(
