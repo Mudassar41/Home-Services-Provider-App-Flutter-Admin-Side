@@ -11,17 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 
-
 class ApiServices {
-  static List<Categories> dogsBreedList = <Categories>[];
-  static List<Categories> tempList = <Categories>[];
-  static bool isLoading = false;
+///////////////////////////////////////////////////////////////////////
   var LoginLink = Uri.parse('http://192.168.43.113:4000/loginprovider');
   var providersDataLink = Uri.parse('http://192.168.43.113:4000/AddProviders');
   var providersprofileLink =
       Uri.parse('http://192.168.43.113:4000/addProvidersProfile');
   var getCategoriesUrl = Uri.parse('http://192.168.43.113:4000/getCats');
 
+/////////////////////////////////////////////////////////////////////////////
   Future<String> postPrvidersData(ProviderModel providerModel,
       ProgressDialog progressDialog, SharePrefService service) async {
     String res = '';
@@ -60,7 +58,6 @@ class ApiServices {
 
   Future<String> postPrvidersProfilesData(ProfileModel profileModel,
       ProgressDialog progressDialog, File image) async {
-
     String res = '';
     progressDialog.style(
         progressWidget: RotationAnimation(20, 20),
@@ -105,8 +102,6 @@ class ApiServices {
 
   Future<String> dioPrvidersProfilesData(ProfileModel profileModel,
       ProgressDialog progressDialog, File image, String userId) async {
-    // profileModel.currentUid = userId;
-    //
     print("current user id is ${userId}");
     String res = '';
     progressDialog.style(
@@ -139,12 +134,9 @@ class ApiServices {
           options: Options(contentType: 'multipart/form-data'));
       if (response.statusCode == 200) {
         res = response.data['msg'];
-        // var value = jsonDecode(response.data['msg']);
-        // res = value;
-        // print('This is response ${res}');
+
         progressDialog.hide();
       } else {
-        // var value = jsonDecode(response.data);
         res = response.data['msg'];
         progressDialog.hide();
       }

@@ -756,7 +756,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                           String res = await apiServices
                                               .postPrvidersData(providerModel,
-                                                  progressDialog,service);
+                                                  progressDialog, service);
                                           if (res ==
                                               'Data inserted for providers') {
                                             //LOGIC

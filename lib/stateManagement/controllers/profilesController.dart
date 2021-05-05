@@ -7,20 +7,12 @@ class ProviderProfilesController extends GetxController {
   var isLoading = true.obs;
   var profilesList = <ProfileModel>[].obs as List<ProfileModel>;
 
-  // @override
-  // void onInit() {
-  //   print('id is ${id.value}');
-  //   // TODO: implement onInit
-  //   super.onInit();
-  //   getProfilesData(id.value);
-  // }
- @override
+  @override
   void refresh() {
     // TODO: implement refresh
     super.refresh();
     getProfilesData(id.value);
   }
-      
 
   void getProfilesData(String id) async {
     isLoading(true);
@@ -33,6 +25,4 @@ class ProviderProfilesController extends GetxController {
       isLoading(false);
     }
   }
-
- 
 }
