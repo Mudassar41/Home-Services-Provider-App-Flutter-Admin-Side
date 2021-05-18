@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:final_year_project/services/apiServices.dart';
+import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart' as Location;
 import 'package:final_year_project/models/category.dart';
@@ -50,6 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   TextEditingController searchController = TextEditingController();
   dynamic selectedcategory;
+  ProviderProfilesController controller=Get.put(ProviderProfilesController());
   List<Categories> categoriesList = <Categories>[];
   List<Categories> tempList = <Categories>[];
   bool isLoading = false;
@@ -692,11 +695,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       profileModel.catId = selectedcategory;
                       if (image != null) {
                         String res = await apiServices.dioPrvidersProfilesData(
-                            profileModel, progressDialog, image, widget.currentUserId);
+                            profileModel, progressDialog, image, "6092e0dba066ec23508dac57",controller);
                         if (res == 'Data Added') {
                           CustomSnackBar.showSnackBar(
                               'Profile Created', context);
-
+                         // controller.update();
                           Navigator.pop(context);
                         } else {
                           CustomSnackBar.showSnackBar(
@@ -741,7 +744,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     tempList = [];
     final response =
-        await http.get(Uri.parse('http://192.168.43.113:4000/getCats'));
+        await http.get(Uri.parse('http://192.168.43.31:4000/getCats'));
     if (response.statusCode == 201) {
       var value = jsonDecode(response.body);
       var data = value['data'];

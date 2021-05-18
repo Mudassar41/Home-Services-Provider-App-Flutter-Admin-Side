@@ -6,7 +6,6 @@ import 'package:final_year_project/reusableComponents/sizing.dart';
 import 'package:final_year_project/reusableComponents/snackBar.dart';
 import 'package:final_year_project/screens/registerScreen.dart';
 import 'package:final_year_project/reUsableComponents/customColors.dart';
-import 'package:final_year_project/reUsableComponents/formField.dart';
 import 'package:final_year_project/services/apiServices.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
 import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
@@ -35,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     idState = Provider.of<CurrentUserIdState>(context);
-
     progressDialog = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
     return SafeArea(
@@ -56,33 +54,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(
                         left: 25, right: 25, top: 8, bottom: 2),
                     child: TextFormField(
-                      autovalidateMode:
-                      AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: phoneNumberController,
                       keyboardType: TextInputType.phone,
                       cursorColor: CustomColors.lightGreen,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         focusedErrorBorder: new OutlineInputBorder(
-                            borderRadius:
-                            new BorderRadius.circular(10.0),
-                            borderSide: new BorderSide(
-                                color: CustomColors.lightGreen)),
+                            borderRadius: new BorderRadius.circular(5.0),
+                            borderSide:
+                                new BorderSide(color: CustomColors.lightGreen)),
                         errorBorder: new OutlineInputBorder(
-                            borderRadius:
-                            new BorderRadius.circular(10.0),
-                            borderSide: new BorderSide(
-                                color: CustomColors.lightGreen)),
+                            borderRadius: new BorderRadius.circular(5.0),
+                            borderSide:
+                                new BorderSide(color: CustomColors.lightGreen)),
                         enabledBorder: new OutlineInputBorder(
-                            borderRadius:
-                            new BorderRadius.circular(10.0),
-                            borderSide: new BorderSide(
-                                color: CustomColors.lightGreen)),
+                            borderRadius: new BorderRadius.circular(5.0),
+                            borderSide:
+                                new BorderSide(color: CustomColors.lightGreen)),
                         focusedBorder: new OutlineInputBorder(
-                            borderRadius:
-                            new BorderRadius.circular(10.0),
-                            borderSide: new BorderSide(
-                                color: CustomColors.lightGreen)),
+                            borderRadius: new BorderRadius.circular(5.0),
+                            borderSide:
+                                new BorderSide(color: CustomColors.lightGreen)),
                         labelText: 'Phone no',
                         labelStyle: TextStyle(color: Colors.grey),
                         suffixIcon: Icon(
@@ -123,51 +116,58 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 25, right: 25, top: 8, bottom: 2),
-                    child: Container(
-                      height: Sizing.heightMultiplier * 7,
-                      width: MediaQuery.of(context).size.width,
-                      child: TextFormField(
-                        controller: passwordController,
-                        textInputAction: TextInputAction.done,
-                        obscureText: _isHidden ? true : false,
-                        keyboardType: TextInputType.visiblePassword,
-                        cursorColor: CustomColors.lightGreen,
-                        decoration: InputDecoration(
-                            enabledBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                borderSide: new BorderSide(
-                                    color: CustomColors.lightGreen)),
-                            focusedBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(5.0),
-                                borderSide: new BorderSide(
-                                    color: CustomColors.lightGreen)),
-                            labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.grey),
-                            suffixIcon: TextButton(
-                                onPressed: () {
-                                  setvalue();
-                                },
-                                child: _isHidden
-                                    ? Icon(
-                                        Icons.visibility_off,
-                                        color: CustomColors.lightGreen,
-                                      )
-                                    : Icon(Icons.visibility,
-                                        color: CustomColors.lightGreen)),
-                            prefixIcon: Icon(
-                              Icons.lock_outlined,
-                              color: Colors.grey,
-                            )),
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return 'Password required';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          user.password = value;
-                        },
-                      ),
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: passwordController,
+                      textInputAction: TextInputAction.done,
+                      obscureText: _isHidden ? true : false,
+                      keyboardType: TextInputType.visiblePassword,
+                      cursorColor: CustomColors.lightGreen,
+                      decoration: InputDecoration(
+                          focusedErrorBorder: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              borderSide: new BorderSide(
+                                  color: CustomColors.lightGreen)),
+                          errorBorder: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              borderSide: new BorderSide(
+                                  color: CustomColors.lightGreen)),
+                          enabledBorder: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              borderSide: new BorderSide(
+                                  color: CustomColors.lightGreen)),
+                          focusedBorder: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(5.0),
+                              borderSide: new BorderSide(
+                                  color: CustomColors.lightGreen)),
+                          labelText: 'Password',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          suffixIcon: TextButton(
+                              onPressed: () {
+                                setvalue();
+                              },
+                              child: _isHidden
+                                  ? Icon(
+                                      Icons.visibility_off,
+                                      color: Colors.grey,
+                                    )
+                                  : Icon(
+                                      Icons.visibility,
+                                      color: Colors.grey,
+                                    )),
+                          prefixIcon: Icon(
+                            Icons.lock_outlined,
+                            color: Colors.grey,
+                          )),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'Password required';
+                        }
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        user.password = value;
+                      },
                     ),
                   ),
                   Padding(
@@ -184,8 +184,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               return;
                             } else {
                               formKey1.currentState.save();
+
                               String res = await apiServices.loginUser(
-                                  service, user, progressDialog);
+                                  service, user, progressDialog, countryCode);
                               if (res == 'Data Exist') {
                                 CustomSnackBar.showSnackBar(
                                     'Login Success', context);
@@ -193,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               } else {
                                 CustomSnackBar.showSnackBar(
                                     'Something Went wrong', context);
+                                progressDialog.hide();
                               }
                             }
                           },

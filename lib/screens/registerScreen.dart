@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:final_year_project/models/providerModel.dart';
+import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
 import 'package:final_year_project/stateManagement/phoneAuthProvider.dart';
 import 'package:final_year_project/reusableComponents/logoWidget.dart';
 import 'package:final_year_project/reusableComponents/snackBar.dart';
@@ -13,6 +14,7 @@ import 'package:final_year_project/services/authStateService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
@@ -23,6 +25,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  ProviderProfilesController controller = Get.put(ProviderProfilesController());
   AuthStateService sharedPrefService = AuthStateService();
   bool value = true;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -86,7 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     idState = Provider.of<CurrentUserIdState>(context);
-    //service.getcurrentUserIdFromSp(idState);
     providr = Provider.of<PhoneAuthProvidr>(context);
     progressDialog = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
@@ -223,22 +225,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   decoration: InputDecoration(
                                     focusedErrorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     errorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     enabledBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     focusedBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     labelText: 'Phone no',
@@ -619,22 +621,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: InputDecoration(
                                     focusedErrorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     errorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     enabledBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     focusedBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     labelText: 'Password',
@@ -681,22 +683,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: InputDecoration(
                                     focusedErrorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     errorBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     enabledBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     focusedBorder: new OutlineInputBorder(
                                         borderRadius:
-                                            new BorderRadius.circular(10.0),
+                                            new BorderRadius.circular(5.0),
                                         borderSide: new BorderSide(
                                             color: CustomColors.lightGreen)),
                                     labelText: 'Confirm Password',
@@ -739,7 +741,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         primary: CustomColors.lightRed,
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(10)))),
+                                                Radius.circular(5.0)))),
                                     onPressed: () async {
                                       if (passwordController.text ==
                                           confirmpasswordController.text) {
@@ -763,6 +765,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             CustomSnackBar.showSnackBar(
                                                 'Account Created', context);
                                             service.addBoolToSp();
+                                            controller.update();
                                             Navigator.pop(context);
                                           } else {
                                             CustomSnackBar.showSnackBar(

@@ -7,17 +7,19 @@ import 'package:final_year_project/models/providerModel.dart';
 import 'package:final_year_project/models/category.dart';
 import 'package:dio/dio.dart';
 import 'package:final_year_project/reusableComponents/customToast.dart';
+import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:progress_dialog/progress_dialog.dart';
 
 class ApiServices {
 ///////////////////////////////////////////////////////////////////////
-  var LoginLink = Uri.parse('http://192.168.43.113:4000/loginprovider');
-  var providersDataLink = Uri.parse('http://192.168.43.113:4000/AddProviders');
+
+  var LoginLink = Uri.parse('http://192.168.43.31:4000/loginprovider');
+  var providersDataLink = Uri.parse('http://192.168.43.31:4000/AddProviders');
   var providersprofileLink =
-      Uri.parse('http://192.168.43.113:4000/addProvidersProfile');
-  var getCategoriesUrl = Uri.parse('http://192.168.43.113:4000/getCats');
+      Uri.parse('http://192.168.43.31:4000/addProvidersProfile');
+  var getCategoriesUrl = Uri.parse('http://192.168.43.31:4000/getCats');
 
 /////////////////////////////////////////////////////////////////////////////
   Future<String> postPrvidersData(ProviderModel providerModel,
@@ -100,8 +102,12 @@ class ApiServices {
     }
   }
 
-  Future<String> dioPrvidersProfilesData(ProfileModel profileModel,
-      ProgressDialog progressDialog, File image, String userId) async {
+  Future<String> dioPrvidersProfilesData(
+      ProfileModel profileModel,
+      ProgressDialog progressDialog,
+      File image,
+      String userId,
+      ProviderProfilesController controller) async {
     print("current user id is ${userId}");
     String res = '';
     progressDialog.style(
@@ -129,12 +135,13 @@ class ApiServices {
         'latitude': profileModel.latitude,
       });
       var response = await dio.post(
-          'http://192.168.43.113:4000/addProvidersProfile',
+          'http://192.168.43.31:4000/addProvidersProfile',
           data: formData,
           options: Options(contentType: 'multipart/form-data'));
       if (response.statusCode == 200) {
         res = response.data['msg'];
-
+      //  controller.getProfilesData();
+       // controller.update();
         progressDialog.hide();
       } else {
         res = response.data['msg'];
@@ -149,7 +156,7 @@ class ApiServices {
 
   static Future<List<Categories>> getCategiesData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.43.113:4000/getCats'));
+        await http.get(Uri.parse('http://192.168.43.31:4000/getCats'));
     if (response.statusCode == 201) {
       var value = jsonDecode(response.body);
       var data = value['data'];
@@ -161,13 +168,15 @@ class ApiServices {
   }
 
   // ignore: missing_return
-  static Future<List<ProfileModel>> getProvidersprofileData(String id) async {
+  static Future<List<ProfileModel>> getProvidersprofileData() async {
+    String ID = '6092e0dba066ec23508dac57';
+    //print("yes");
     final response = await http
-        .get(Uri.parse('http://192.168.43.113:4000/getProvidersProfile/${id}'));
+        .get(Uri.parse('http://192.168.43.31:4000/getProvidersProfile/${ID}'));
     if (response.statusCode == 200) {
       var value = jsonDecode(response.body);
       var data = value['data'];
-
+      print(data);
       List<ProfileModel> profileList = data
           .map<ProfileModel>((json) => ProfileModel.fromJson(json))
           .toList();
@@ -178,7 +187,7 @@ class ApiServices {
 
   static Future<List<Categories>> searchCategiesData(String text) async {
     final response = await http.get(
-        Uri.parse('http://192.168.43.113:4000/search/${text.toLowerCase()}'));
+        Uri.parse('http://192.168.43.31:4000/search/${text.toLowerCase()}'));
     if (response.statusCode == 201) {
       var value = jsonDecode(response.body);
       var data = value['data'];
@@ -189,9 +198,13 @@ class ApiServices {
     }
   }
 
-  Future<String> loginUser(SharePrefService sharePrefService,
-      ProviderModel providerModel, ProgressDialog progressDialog) async {
+  Future<String> loginUser(
+      SharePrefService sharePrefService,
+      ProviderModel providerModel,
+      ProgressDialog progressDialog,
+      String countryCode) async {
     String res = '';
+    providerModel.phoneNumber = '${countryCode}${providerModel.phoneNumber}';
     progressDialog.style(
         progressWidget: RotationAnimation(20, 20),
         message: 'Please wait..',
@@ -217,14 +230,13 @@ class ApiServices {
         var value = jsonDecode(response.body);
         print('result is ${value['msg']}');
         res = value['msg'];
-
         progressDialog.hide();
       }
       return res;
     } catch (e) {
-      print(e);
+      // print(e);
       progressDialog.hide();
-      CustomToast.showToast(e);
+      // CustomToast.showToast(e);
     }
   }
 }
