@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:final_year_project/services/apiServices.dart';
-import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
+import 'package:final_year_project/services/sharedPrefService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:get/get.dart';
+import 'package:geolocator/geolocator.dart';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:location/location.dart' as Location;
 import 'package:final_year_project/models/category.dart';
 import 'package:final_year_project/models/profile.dart';
 import 'package:final_year_project/reusableComponents/customColors.dart';
@@ -17,19 +16,15 @@ import 'package:final_year_project/reusableComponents/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grid_delegate_ext/rendering/grid_delegate.dart';
 import 'package:http/http.dart' as http;
-import 'package:location/location.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   String currentUserId;
-  
-    ProfileScreen(
-      {Key key,
-      this.currentUserId,
-    })
-      : super(key: key);
 
-
+  ProfileScreen({
+    Key key,
+    this.currentUserId,
+  }) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -42,8 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ProfileModel profileModel = ProfileModel();
   PageController pageController = PageController();
   FocusNode focusNode;
-  var location = new Location.Location();
-  LocationData _locationData;
   bool value = true;
   bool setFloatIcon = true;
   ProgressDialog progressDialog;
@@ -52,7 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   TextEditingController searchController = TextEditingController();
   dynamic selectedcategory;
-  ProviderProfilesController controller=Get.put(ProviderProfilesController());
+
+  //ProviderProfilesController controller=Get.put(ProviderProfilesController());
   List<Categories> categoriesList = <Categories>[];
   List<Categories> tempList = <Categories>[];
   bool isLoading = false;
@@ -118,20 +112,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ];
   FirebaseAuth auth;
   dynamic currentUid;
+  SharePrefService sharePrefService = SharePrefService();
+
+  // Future location;
+  String str = "Loading...";
+  Future<Position> position;
+
   @override
   void initState() {
     super.initState();
-    print('id is ${widget.currentUserId}');
-    getFilterData();
-    getProvidercurrentlocation();
-    focusNode = FocusNode();
-    auth = FirebaseAuth.instance;
 
-    if (auth.currentUser != null) {
-      print(auth.currentUser.uid);
-      currentUid = auth.currentUser.uid;
-      
-    }
+    position = Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high,
+            forceAndroidLocationManager: true)
+        .then((loc) {
+      setState(() {
+        profileModel.latitude = loc.latitude;
+        profileModel.longitude = loc.longitude;
+        //    print(loc.longitude);
+      });
+    }).catchError((onError) {
+      print("error");
+    });
+    getFilterData();
+
+    focusNode = FocusNode();
   }
 
   @override
@@ -188,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           elevation: 5,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
           child: TextField(
             focusNode: focusNode,
@@ -232,82 +237,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Expanded(
           child: isLoading == true
               ? LoadingBar()
-              : GridView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: XSliverGridDelegate(
-                    crossAxisCount: 2,
-                    smallCellExtent: Sizing.heightMultiplier * 20,
-                    bigCellExtent: Sizing.heightMultiplier * 20,
-                  ),
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 5,
-                      shadowColor: CustomColors.lightRed,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedcategory = categoriesList[index].id;
-                            print(selectedcategory);
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [CustomColors.lightGreen, Colors.white],
-                                begin: Alignment.topLeft,
-                                end: Alignment.topRight),
-                            color: Colors.black12,
-                          ),
-                          child: Stack(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Image.network(
-                                      'http://192.168.43.31:4000/${categoriesList[index].imageLink}',
-                                      height: 50,
-                                      width: 50,
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: XSliverGridDelegate(
+                      crossAxisCount: 2,
+                      smallCellExtent: Sizing.heightMultiplier * 20,
+                      bigCellExtent: Sizing.heightMultiplier * 20,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 5,
+                        shadowColor: CustomColors.lightRed,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedcategory = categoriesList[index].id;
+                              print(selectedcategory);
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    CustomColors.lightGreen,
+                                    Colors.white
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.topRight),
+                              color: Colors.black12,
+                            ),
+                            child: Stack(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Image.network(
+                                        'http://192.168.18.100:4000/${categoriesList[index].imageLink}',
+                                        height: 50,
+                                        width: 50,
+                                      ),
                                     ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      '${categoriesList[index].name[0].toUpperCase()}${categoriesList[index].name.toLowerCase().substring(1)}',
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontWeight: FontWeight.bold),
+                                    Center(
+                                      child: Text(
+                                        '${categoriesList[index].name[0].toUpperCase()}${categoriesList[index].name.toLowerCase().substring(1)}',
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Positioned(
-                                top: 5,
-                                left: 5,
-                                child:
-                                    selectedcategory == categoriesList[index].id
-                                        ? Icon(
-                                            Icons.done_rounded,
-                                            color: CustomColors.lightRed,
-                                          )
-                                        : Container(
-                                            height: 0,
-                                            width: 0,
-                                          ),
-                              )
-                            ],
+                                  ],
+                                ),
+                                Positioned(
+                                  top: 5,
+                                  left: 5,
+                                  child: selectedcategory ==
+                                          categoriesList[index].id
+                                      ? Icon(
+                                          Icons.done_rounded,
+                                          color: CustomColors.lightRed,
+                                        )
+                                      : Container(
+                                          height: 0,
+                                          width: 0,
+                                        ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  itemCount: categoriesList.length,
+                      );
+                    },
+                    itemCount: categoriesList.length,
+                  ),
                 )),
     ]);
   }
@@ -325,7 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Store Image',
+                  'Shop Image',
                   style: TextStyle(
                       fontSize: Sizing.textMultiplier * 3,
                       fontWeight: FontWeight.bold),
@@ -339,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.grey,
                     ),
                     onPressed: () {
-                      getImage();
+                      showImageSelectionDialog(context);
                     })
                 : Padding(
                     padding: const EdgeInsets.only(top: 5, left: 20, right: 20),
@@ -377,7 +388,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Store Name',
+                  'Shop Name',
                   style: TextStyle(
                       fontSize: Sizing.textMultiplier * 3,
                       fontWeight: FontWeight.bold),
@@ -688,18 +699,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       minimumSize: Size(200, 50)),
                   child: Text('Save Service'),
                   onPressed: () async {
+                    //   currentUid=await sharePrefService.getcurrentUserIdFromSp();
                     if (!formKey.currentState.validate()) {
                       return;
                     } else {
                       formKey.currentState.save();
                       profileModel.catId = selectedcategory;
                       if (image != null) {
-                        String res = await apiServices.dioPrvidersProfilesData(
-                            profileModel, progressDialog, image, "6092e0dba066ec23508dac57",controller);
+                        String res = await apiServices.postPrvidersProfilesData(
+                            profileModel,
+                            progressDialog,
+                            image,
+                            widget.currentUserId);
                         if (res == 'Data Added') {
                           CustomSnackBar.showSnackBar(
                               'Profile Created', context);
-                         // controller.update();
+                          // controller.update();
                           Navigator.pop(context);
                         } else {
                           CustomSnackBar.showSnackBar(
@@ -744,7 +759,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     tempList = [];
     final response =
-        await http.get(Uri.parse('http://192.168.43.31:4000/getCats'));
+        await http.get(Uri.parse('http://192.168.18.100:4000/getCats'));
     if (response.statusCode == 201) {
       var value = jsonDecode(response.body);
       var data = value['data'];
@@ -763,22 +778,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
   }
 
-  getProvidercurrentlocation() async {
-    _locationData = await location.getLocation();
-    print(_locationData.longitude);
-    profileModel.latitude = _locationData.latitude;
-    profileModel.longitude = _locationData.longitude;
-
-    final coordinates =
-        new Coordinates(_locationData.latitude, _locationData.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    print("${first.featureName} : ${first.addressLine}");
-  }
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+  Future getImageCamera(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera,);
 
     setState(() {
       if (pickedFile != null) {
@@ -787,5 +788,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print('No image selected.');
       }
     });
+    Navigator.of(context).pop();
+  }
+
+  Future getImageGallery(BuildContext context) async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+    Navigator.of(context).pop();
+  }
+
+  Future<void> showImageSelectionDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(
+                "Select Image",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text("Gallery"),
+                      onTap: () {
+                        getImageGallery(context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text("Camera"),
+                      onTap: () {
+                        getImageCamera(context);
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
   }
 }

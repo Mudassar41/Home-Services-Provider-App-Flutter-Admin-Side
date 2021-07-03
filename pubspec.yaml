@@ -39,10 +39,13 @@ dependencies:
   fluttertoast: ^8.0.3
   http: ^0.13.1
   google_maps_flutter: ^2.0.3
-  geocoding: ^2.0.0
+
   geocoder: ^0.2.1
+  web_socket_channel: ^2.1.0
   geolocator: ^7.0.3
   get: ^4.1.4
+  uuid: ^3.0.4
+  firebase_storage: ^8.1.0
   cached_network_image: ^3.0.0
   firebase_auth: ^1.0.3
   double_back_to_close_app: ^2.0.1
@@ -50,7 +53,9 @@ dependencies:
   shared_preferences: ^2.0.5
   image_picker: ^0.7.4
   badges: ^1.2.0
+  flutter_rating_bar: ^4.0.0
   dio: ^4.0.0
+  flutter_svg: ^0.22.0
 
   
 
@@ -74,7 +79,13 @@ flutter:
   assets:
      - assets/images/logo.gif
      - assets/images/logo.jpeg
-  #   - images/a_dot_ham.jpeg
+     - assets/images/profile.jpg
+     - assets/images/settings.svg
+     - assets/images/checklist.svg
+     - assets/images/suitcase.svg
+     - assets/images/man.svg
+     - assets/images/no.svg
+     - assets/images/nop.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

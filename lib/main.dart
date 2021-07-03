@@ -1,12 +1,14 @@
 import 'package:final_year_project/reusableComponents/customColors.dart';
-import 'package:final_year_project/stateManagement/athenticationProvider.dart';
+
 import 'package:final_year_project/stateManagement/phoneAuthProvider.dart';
 import 'package:final_year_project/reusableComponents/lodingbar.dart';
 import 'package:final_year_project/screens/loginScreen.dart';
 import 'package:final_year_project/reusableComponents/sizing.dart';
 import 'package:final_year_project/screens/BottonNavPage.dart';
+import 'package:final_year_project/stateManagement/providers/DbProvider.dart';
+import 'package:final_year_project/stateManagement/providers/serviceProvidersprofiles.dart';
+import 'package:final_year_project/stateManagement/providers/tasksProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:final_year_project/stateManagement/databaseProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -29,24 +31,34 @@ void main() async {
           return PhoneAuthProvidr();
         },
       ),
-      ChangeNotifierProvider<AuthProvider>(
+      ChangeNotifierProvider<PhoneAuthProvidr>(
         create: (BuildContext context) {
-          return AuthProvider();
+          return PhoneAuthProvidr();
         },
       ),
-       ChangeNotifierProvider<CurrentUserIdState>(
+      ChangeNotifierProvider<DatabaseProvider>(
+        create: (BuildContext context) {
+          return DatabaseProvider();
+        },
+      ),
+      ChangeNotifierProvider<CurrentUserIdState>(
         create: (BuildContext context) {
           return CurrentUserIdState();
         },
       ),
-       ChangeNotifierProvider<AuthState>(
+      ChangeNotifierProvider<AuthState>(
         create: (BuildContext context) {
           return AuthState();
         },
       ),
-      ChangeNotifierProvider<DataBaseProvider>(
+      ChangeNotifierProvider<TasksProvider>(
         create: (BuildContext context) {
-          return DataBaseProvider();
+          return TasksProvider();
+        },
+      ),
+      ChangeNotifierProvider<ServiceProvidersProfileProvider>(
+        create: (BuildContext context) {
+          return ServiceProvidersProfileProvider();
         },
       ),
     ],
@@ -73,7 +85,7 @@ class MyApp extends StatelessWidget {
                   primaryIconTheme: IconThemeData(color: Colors.black45)),
               debugShowCheckedModeBanner: false,
               title: 'Providerlance',
-              home: authState.loggedUser==null
+              home: authState.loggedUser == null
                   ? LoadingBar()
                   : authState.loggedUser == true
                       ? NavPage()

@@ -6,7 +6,8 @@ import 'package:final_year_project/stateManagement/providers/currentuserState.da
 
 class SharePrefService {
   SharedPreferences prefs;
-  ProviderProfilesController controller=Get.put(ProviderProfilesController());
+
+  // ProviderProfilesController controller=Get.put(ProviderProfilesController());
 
   addBoolToSp() async {
     prefs = await SharedPreferences.getInstance();
@@ -22,7 +23,6 @@ class SharePrefService {
     //print('bool valur is ${boolValue}');
     else {
       authState.loggedUser = boolValue;
-      
     }
   }
 
@@ -31,21 +31,25 @@ class SharePrefService {
     prefs.setBool('boolValue', false);
   }
 
-  addCurrentuserToSf(String id) async {
+  addCurrentuserIdToSf(String id) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setString('currentUserId', id);
   }
- logOutCurrentuserSf() async {
+
+  logOutCurrentuserSf() async {
     prefs = await SharedPreferences.getInstance();
     prefs.setString('currentUserId', 'log out');
   }
-  getcurrentUserIdFromSp() async {
+
+  getcurrentUserIdFromSp(CurrentUserIdState currentUserIdState) async {
     prefs = await SharedPreferences.getInstance();
     String Id = prefs.getString('currentUserId');
-    controller.id.value=Id;
-    print('id is ${controller.id.value}');
-    controller.update();
-  //  idState.currentUserId = Id;
-   // print(idState.currentUserId);
+    currentUserIdState.currentUserId=Id;
+    print(currentUserIdState.currentUserId);
+  }
+ Future<String> getcurrentUserId() async {
+    prefs = await SharedPreferences.getInstance();
+    String Id = prefs.getString('currentUserId');
+    return Id;
   }
 }

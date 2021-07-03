@@ -1,6 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:final_year_project/models/providerModel.dart';
-import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
 import 'package:final_year_project/stateManagement/phoneAuthProvider.dart';
 import 'package:final_year_project/reusableComponents/logoWidget.dart';
 import 'package:final_year_project/reusableComponents/snackBar.dart';
@@ -10,11 +9,9 @@ import 'package:final_year_project/reusableComponents/customColors.dart';
 import 'package:final_year_project/reusableComponents/formField.dart';
 import 'package:final_year_project/reusableComponents/sizing.dart';
 import 'package:final_year_project/reusableComponents/verificationCodeFields.dart';
-import 'package:final_year_project/services/authStateService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:final_year_project/stateManagement/providers/currentuserState.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
@@ -25,8 +22,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  ProviderProfilesController controller = Get.put(ProviderProfilesController());
-  AuthStateService sharedPrefService = AuthStateService();
   bool value = true;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isHidden = true;
@@ -765,7 +760,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             CustomSnackBar.showSnackBar(
                                                 'Account Created', context);
                                             service.addBoolToSp();
-                                            controller.update();
+                                           // controller.update();
                                             Navigator.pop(context);
                                           } else {
                                             CustomSnackBar.showSnackBar(

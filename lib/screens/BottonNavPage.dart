@@ -1,5 +1,6 @@
 import 'package:final_year_project/reusableComponents/customColors.dart';
 import 'package:final_year_project/screens/bottomNavViews/homeView.dart';
+import 'package:final_year_project/screens/bottomNavViews/tasksView.dart';
 import 'package:flutter/material.dart';
 import 'package:final_year_project/models/bottomNavItems.dart';
 import 'package:final_year_project/screens/bottomNavViews/messagesView.dart';
@@ -12,13 +13,17 @@ class NavPage extends StatefulWidget {
 
 class _NavPageState extends State<NavPage> {
   List<BottomItems> bottomList = [
-    BottomItems('Home', Icons.home_filled),
-    BottomItems('Inbox', Icons.mail),
-    BottomItems('Settings', Icons.settings)
+    BottomItems('Home', Icons.home_outlined),
+    BottomItems('Inbox', Icons.mail_outline),
+//    BottomItems('Bookings', Icons.task),
+    // BottomItems('Settings', Icons.settings)
   ];
   int selectedIndex = 0;
 
-  List<Widget> widgetsList = <Widget>[Home(), Inbox(), ProfileSetting()];
+  List<Widget> widgetsList = <Widget>[
+    Home(),
+    Inbox(),
+  ];
 
   void onPageChanged(int index) {
     setState(() {
@@ -36,6 +41,18 @@ class _NavPageState extends State<NavPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        title: Text(
+          'ProviderLance',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.notifications_none_outlined))
+        ],
+      ),
       backgroundColor: Colors.white,
       body: PageView(
         controller: pageController,
@@ -44,6 +61,7 @@ class _NavPageState extends State<NavPage> {
         physics: BouncingScrollPhysics(),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: onItemTapped,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         currentIndex: selectedIndex,
