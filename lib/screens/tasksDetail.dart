@@ -296,6 +296,11 @@ class _TasksDetailState extends State<TasksDetail> {
                             onTap: () async {
                               String res = await apiServices.updateTask(
                                   widget.tasksModel.id, 'accepted');
+                              apiServices.sendNotificationtoToToken(
+                                  widget.tasksModel.usersregistrationprofiles
+                                      .deviceId,
+                                  'offers',
+                                  'Booking Accepted');
                             },
                             child: Container(
                               height: 40,
@@ -324,7 +329,15 @@ class _TasksDetailState extends State<TasksDetail> {
                         Expanded(
                           flex: 3,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () async {
+                              String res = await apiServices.updateTask(
+                                  widget.tasksModel.id, 'cancel');
+                              apiServices.sendNotificationtoToToken(
+                                  widget.tasksModel.usersregistrationprofiles
+                                      .deviceId,
+                                  'offers',
+                                  'Booking cancelled');
+                            },
                             child: Container(
                               height: 40,
                               child: Center(
@@ -350,7 +363,15 @@ class _TasksDetailState extends State<TasksDetail> {
                     Text('')
                   else if (items.tasksModel.offerStatus == 'accepted')
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        String res = await apiServices.updateTask(
+                            widget.tasksModel.id, 'cancel');
+                        apiServices.sendNotificationtoToToken(
+                            widget
+                                .tasksModel.usersregistrationprofiles.deviceId,
+                            'offers',
+                            'Booking cancelled');
+                      },
                       child: Align(
                         alignment: Alignment.center,
                         child: Container(
@@ -390,7 +411,7 @@ class _TasksDetailState extends State<TasksDetail> {
                                 items.tasksModel.providerRating <= 0.0
                             ? TextButton(
                                 onPressed: () {
-                                  // showMyDialog();
+                                  showMyDialog();
                                 },
                                 child: Text('Mark Review'))
                             //else
@@ -522,7 +543,7 @@ class _TasksDetailState extends State<TasksDetail> {
                       controller: tasksProvider.reviewController,
                       maxLines: 8,
                       decoration: InputDecoration.collapsed(
-                        hintText: "Review about Service Provider",
+                        hintText: "Review about Client",
                       ),
                     ),
                   ),
@@ -554,7 +575,7 @@ class _TasksDetailState extends State<TasksDetail> {
                         tasksProvider.reviewController.clear();
                         Navigator.of(context).pop();
                       } else {
-                        CustomToast.showToast('Something went wrong');
+                        CustomToast.showToast(res);
                         Navigator.of(context).pop();
                       }
                     },

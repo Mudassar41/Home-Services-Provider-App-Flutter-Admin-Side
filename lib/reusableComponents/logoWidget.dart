@@ -20,7 +20,6 @@ class LogoWidget extends StatelessWidget {
           Container(
               height: size,
               decoration: BoxDecoration(
-
                   image: DecorationImage(
                       image: AssetImage('assets/images/logo.jpeg'),
                       fit: BoxFit.fill))),
@@ -28,7 +27,7 @@ class LogoWidget extends StatelessWidget {
             title,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: Sizing.textMultiplier * 3),
+                fontSize: Sizing.textMultiplier * 2.8),
           ),
           Text(
             subTitle,

@@ -13,6 +13,7 @@ import 'package:final_year_project/services/sharedPrefService.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import '../notificationScreen.dart';
 import '../servicesScreen.dart';
 
 class Home extends StatelessWidget {
@@ -133,7 +134,9 @@ class Home extends StatelessWidget {
                         child: Card(
                           elevation: 3.0,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(Notifications());
+                            },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -141,14 +144,14 @@ class Home extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: SvgPicture.asset(
-                                    'assets/images/checklist.svg',
+                                    'assets/images/bell.svg',
                                     height: 50,
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "Orders History",
+                                    "Notifications",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black45),

@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
+import 'package:final_year_project/animations/rotationAnimation.dart';
 import 'package:final_year_project/services/apiServices.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:final_year_project/models/category.dart';
@@ -42,7 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ProgressDialog progressDialog;
   var lat;
   var lang;
-
+  Position position;
   TextEditingController searchController = TextEditingController();
   dynamic selectedcategory;
 
@@ -56,84 +59,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController pricePerHrsController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  String timeGmt = 'PM';
-  String timeGmt1 = 'PM';
-  List<String> timeGmtList = ['PM', 'AM'];
-  List<String> timeGmtList1 = ['PM', 'AM'];
-  String dropvalue = '1';
-  String dropvalue1 = '1';
-  String weekDay = 'Mon';
-  String weekDay1 = 'Mon';
-  List<String> weekDayList = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun',
-  ];
-  List<String> weekDayList1 = [
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sun',
-  ];
-  List<String> timeList = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ];
-  List<String> timeList1 = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ];
+  final TextEditingController descController = TextEditingController();
+
   FirebaseAuth auth;
   dynamic currentUid;
   SharePrefService sharePrefService = SharePrefService();
 
   // Future location;
   String str = "Loading...";
-  Future<Position> position;
 
   @override
   void initState() {
     super.initState();
 
-    position = Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            forceAndroidLocationManager: true)
-        .then((loc) {
-      setState(() {
-        profileModel.latitude = loc.latitude;
-        profileModel.longitude = loc.longitude;
-        //    print(loc.longitude);
-      });
-    }).catchError((onError) {
-      print("error");
-    });
     getFilterData();
 
     focusNode = FocusNode();
@@ -282,7 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Image.network(
-                                        'http://192.168.18.100:4000/${categoriesList[index].imageLink}',
+                                        'http://192.168.43.113:4000/${categoriesList[index].imageLink}',
                                         height: 50,
                                         width: 50,
                                       ),
@@ -290,6 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Center(
                                       child: Text(
                                         '${categoriesList[index].name[0].toUpperCase()}${categoriesList[index].name.toLowerCase().substring(1)}',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.black54,
                                             fontWeight: FontWeight.bold),
@@ -452,7 +391,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Working Hours',
+                  'Description',
                   style: TextStyle(
                       fontSize: Sizing.textMultiplier * 3,
                       fontWeight: FontWeight.bold),
@@ -462,233 +401,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding:
                   const EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 2),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: Text(
-                            'From',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: DropdownButtonFormField(
-                            onSaved: (value) {
-                              profileModel.whFromTime = value;
-                            },
-                            validator: (input) {
-                              if (input.isEmpty) {
-                                return 'Field Required';
-                              }
-                              return null;
-                            },
-                            isExpanded: true,
-                            value: dropvalue,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            onChanged: (value) {
-                              setState(() {
-                                dropvalue = value;
-                              });
-                            },
-                            items: timeList.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e),
-                              );
-                            }).toList()),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Container(
-                            height: 0,
-                            width: 0,
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: DropdownButtonFormField(
-                            onSaved: (value) {
-                              profileModel.whFromTimeType = value;
-                            },
-                            validator: (input) {
-                              if (input.isEmpty) {
-                                return 'Field Required';
-                              }
-                              return null;
-                            },
-                            isExpanded: true,
-                            value: timeGmt,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            onChanged: (value) {
-                              setState(() {
-                                timeGmt = value;
-                              });
-                            },
-                            items: timeGmtList.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e),
-                              );
-                            }).toList()),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: Text('To',
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                      Expanded(
-                        flex: 1,
-                        child: DropdownButtonFormField(
-                            onSaved: (value) {
-                              profileModel.whToTime = value;
-                            },
-                            validator: (input) {
-                              if (input.isEmpty) {
-                                return 'Field Required';
-                              }
-                              return null;
-                            },
-                            isExpanded: true,
-                            value: dropvalue1,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            onChanged: (value) {
-                              setState(() {
-                                dropvalue1 = value;
-                              });
-                            },
-                            items: timeList1.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e),
-                              );
-                            }).toList()),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: Container(
-                            height: 0,
-                            width: 0,
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: DropdownButtonFormField(
-                            onSaved: (value) {
-                              profileModel.whToTimeType = value;
-                            },
-                            validator: (input) {
-                              if (input.isEmpty) {
-                                return 'Field Required';
-                              }
-                              return null;
-                            },
-                            isExpanded: true,
-                            value: timeGmt1,
-                            icon: Icon(Icons.arrow_drop_down_sharp),
-                            onChanged: (value) {
-                              setState(() {
-                                timeGmt1 = value;
-                              });
-                            },
-                            items: timeGmtList1.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e),
-                              );
-                            }).toList()),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Weekly Schedule',
-                  style: TextStyle(
-                      fontSize: Sizing.textMultiplier * 3,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 2),
-              child: Row(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Text(
-                        'From',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Expanded(
-                    flex: 1,
-                    child: DropdownButtonFormField(
-                        onSaved: (value) {
-                          profileModel.wsFrom = value;
-                        },
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Field Required';
-                          }
-                          return null;
-                        },
-                        isExpanded: true,
-                        value: weekDay,
-                        icon: Icon(Icons.arrow_drop_down_sharp),
-                        onChanged: (value) {
-                          setState(() {
-                            weekDay = value;
-                          });
-                        },
-                        items: weekDayList.map((e) {
-                          return DropdownMenuItem<String>(
-                            value: e,
-                            child: Text(e),
-                          );
-                        }).toList()),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 0,
-                        width: 0,
-                      )),
-                  Expanded(
-                    flex: 1,
-                    child: DropdownButtonFormField(
-                        onSaved: (value) {
-                          profileModel.wsTo = value;
-                        },
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return 'Field Required';
-                          }
-                          return null;
-                        },
-                        isExpanded: true,
-                        value: weekDay1,
-                        icon: Icon(Icons.arrow_drop_down_sharp),
-                        onChanged: (value) {
-                          setState(() {
-                            weekDay1 = value;
-                          });
-                        },
-                        items: weekDayList1.map((e) {
-                          return DropdownMenuItem<String>(
-                            value: e,
-                            child: Text(e),
-                          );
-                        }).toList()),
-                  ),
-                ],
+              child: TextFormField(
+                maxLines: 5,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.text,
+                controller: descController,
+                decoration: FormFieldDesign.inputDecoration(
+                    'Description', Icons.description),
+                onSaved: (address) {
+                  profileModel.desc = address;
+                },
+                validator: (address) {
+                  if (address.isEmpty) {
+                    return 'Field Requird';
+                  }
+                  return null;
+                },
               ),
             ),
             Padding(
@@ -706,6 +434,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       formKey.currentState.save();
                       profileModel.catId = selectedcategory;
                       if (image != null) {
+                        progressDialog.style(
+                            progressWidget: RotationAnimation(20, 20),
+                            message: 'Please wait getting Current Location',
+                            messageTextStyle:
+                                TextStyle(fontWeight: FontWeight.normal));
+                        progressDialog.show();
+                        position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.high,
+                            forceAndroidLocationManager: true);
+
+                        setState(() {
+                          profileModel.latitude = position.latitude.toDouble();
+                          profileModel.longitude =
+                              position.longitude.toDouble();
+                        });
+                        progressDialog.hide();
+
                         String res = await apiServices.postPrvidersProfilesData(
                             profileModel,
                             progressDialog,
@@ -715,7 +460,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CustomSnackBar.showSnackBar(
                               'Profile Created', context);
                           // controller.update();
-                          Navigator.pop(context);
+                          Get.back();
                         } else {
                           CustomSnackBar.showSnackBar(
                               'Something went wrong', context);
@@ -759,7 +504,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     tempList = [];
     final response =
-        await http.get(Uri.parse('http://192.168.18.100:4000/getCats'));
+        await http.get(Uri.parse('http://192.168.43.113:4000/getCats'));
     if (response.statusCode == 201) {
       var value = jsonDecode(response.body);
       var data = value['data'];
@@ -779,7 +524,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future getImageCamera(BuildContext context) async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera,);
+    final pickedFile = await picker.getImage(
+      source: ImageSource.camera,
+    );
 
     setState(() {
       if (pickedFile != null) {

@@ -55,7 +55,11 @@ dependencies:
   badges: ^1.2.0
   flutter_rating_bar: ^4.0.0
   dio: ^4.0.0
+  cloud_firestore: ^2.3.0
   flutter_svg: ^0.22.0
+  firebase_messaging: ^10.0.3
+  flutter_local_notifications: ^8.0.0
+  intl: ^0.17.0
 
   
 
@@ -86,6 +90,7 @@ flutter:
      - assets/images/man.svg
      - assets/images/no.svg
      - assets/images/nop.svg
+     - assets/images/bell.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

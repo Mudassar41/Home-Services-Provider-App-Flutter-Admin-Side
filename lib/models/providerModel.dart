@@ -7,6 +7,7 @@ class ProviderModel {
   String phoneNumber;
   String password;
   String confirmPassword;
+  String deviceId;
 
 
 }

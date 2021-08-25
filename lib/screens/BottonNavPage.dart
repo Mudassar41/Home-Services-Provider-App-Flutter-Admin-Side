@@ -48,10 +48,7 @@ class _NavPageState extends State<NavPage> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {}, icon: Icon(Icons.notifications_none_outlined))
-        ],
+
       ),
       backgroundColor: Colors.white,
       body: PageView(

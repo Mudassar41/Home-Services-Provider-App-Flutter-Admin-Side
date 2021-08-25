@@ -6,6 +6,7 @@ import 'package:final_year_project/reusableComponents/customColors.dart';
 import 'package:final_year_project/reusableComponents/lodingbar.dart';
 import 'package:final_year_project/reusableComponents/textStyleForOrders.dart';
 import 'package:final_year_project/screens/profileScreen.dart';
+import 'package:final_year_project/screens/servicesDetail.dart';
 import 'package:final_year_project/services/apiServices.dart';
 import 'package:final_year_project/services/sharedPrefService.dart';
 import 'package:final_year_project/stateManagement/controllers/profilesController.dart';
@@ -72,102 +73,112 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5))),
                                 clipBehavior: Clip.antiAlias,
-                                child: Container(
-                                  height: 100,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Container(
-                                          width: 100,
-                                          // height: 100,
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                snapshot.data[index].shopImage,
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              // width: Screensize.widthMultiplier * 40,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5)),
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) => Center(
-                                                child:
-                                                    CircularProgressIndicator()),
-                                            errorWidget:
-                                                (context, url, error) => Center(
-                                                    child: Icon(Icons.error)),
-                                          ),
-                                          // decoration: BoxDecoration(
-                                          //     borderRadius: BorderRadius.all(
-                                          //         Radius.circular(5)),
-                                          //     image: DecorationImage(
-                                          //         image: NetworkImage(
-                                          //             'http://192.168.43.113:4000/${snapshot.data[index].shopImage}'),
-                                          //         fit: BoxFit.cover))
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: Padding(
+                                child: InkWell(
+                                  onTap: () {
+                                    controller.id.value =
+                                        snapshot.data[index].id;
+                                    controller.update();
+                                    print(controller.id.value);
+                                    Get.to(ServicesDetail());
+                                  },
+                                  child: Container(
+                                    height: 100,
+                                    child: Row(
+                                      children: [
+                                        Padding(
                                           padding: const EdgeInsets.all(2.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                snapshot.data[index].shopName,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
-                                              ),
-                                              Text(snapshot.data[index].address,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      color: Colors.black54)),
-
-                                              Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        CustomColors.lightRed,
-                                                    //   border: Border.all(width: 1),
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(5)),
+                                          child: Container(
+                                            width: 100,
+                                            // height: 100,
+                                            child: CachedNetworkImage(
+                                              imageUrl: snapshot
+                                                  .data[index].shopImage,
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                // width: Screensize.widthMultiplier * 40,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                  image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover,
                                                   ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            3.0),
-                                                    child: Text(
-                                                      '${snapshot.data[index].providercategories.providerCatName[0].toUpperCase()}${snapshot.data[index].providercategories.providerCatName.toLowerCase().substring(1)}',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                  ),
-                                                  // height: 25,
-                                                  // width: 70,
                                                 ),
-                                              )
-                                            ],
+                                              ),
+                                              placeholder: (context, url) => Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  Center(
+                                                      child: Icon(Icons.error)),
+                                            ),
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        Flexible(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  snapshot.data[index].shopName,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                    snapshot
+                                                        .data[index].address,
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        color: Colors.black54)),
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomLeft,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          CustomColors.lightRed,
+                                                      //   border: Border.all(width: 1),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  5)),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              3.0),
+                                                      child: Text(
+                                                        '${snapshot.data[index].providercategories.providerCatName[0].toUpperCase()}${snapshot.data[index].providercategories.providerCatName.toLowerCase().substring(1)}',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal),
+                                                      ),
+                                                    ),
+                                                    // height: 25,
+                                                    // width: 70,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ));
                           }),

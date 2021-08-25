@@ -23,6 +23,7 @@ class SharePrefService {
     //print('bool valur is ${boolValue}');
     else {
       authState.loggedUser = boolValue;
+      //print(boolValue);
     }
   }
 
@@ -44,10 +45,11 @@ class SharePrefService {
   getcurrentUserIdFromSp(CurrentUserIdState currentUserIdState) async {
     prefs = await SharedPreferences.getInstance();
     String Id = prefs.getString('currentUserId');
-    currentUserIdState.currentUserId=Id;
+    currentUserIdState.currentUserId = Id;
     print(currentUserIdState.currentUserId);
   }
- Future<String> getcurrentUserId() async {
+
+  Future<String> getcurrentUserId() async {
     prefs = await SharedPreferences.getInstance();
     String Id = prefs.getString('currentUserId');
     return Id;

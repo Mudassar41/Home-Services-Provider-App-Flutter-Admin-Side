@@ -63,6 +63,30 @@ class TasksModel {
       providerReview: json['providerReview'],
       dateTime: DateTime.parse(json["dateTime"]),
       userAdress: json['userAdress']);
+
+  factory TasksModel.fromJson1(Map<String, dynamic> json) => TasksModel(
+        id: json["_id"],
+        //   providerprofiles: ProvidersData.fromJson1(json["providerprofiles"]),
+
+        usersregistrationprofiles:
+            UserProfile.fromJson(json["usersregistrationprofiles"]),
+
+        //  providercategories:
+        //  Providercategories.fromJson(json["providercategories"]),
+        userlatitude: json["userlatitude"],
+        userlongitude: json["userlongitude"],
+        offerStatus: json["offerStatus"],
+        des: json['des'],
+        priceOffered: json['priceOffered'],
+        time: json['time'],
+        // serviceprovidersdatas:
+        // Serviceprovidersdatas.fromJson(json["serviceprovidersdatas"]),
+        userRating: json['userRating'].toDouble(),
+        userReview: json['userReview'],
+        providerRating: json['providerRating'].toDouble(),
+        providerReview: json['providerReview'],
+        dateTime: DateTime.parse(json["dateTime"]),
+      );
 }
 
 class Serviceprovidersdatas {
@@ -91,4 +115,10 @@ class Serviceprovidersdatas {
         providerPassword: json["providerPassword"],
         v: json["__v"],
       );
+}
+
+class TaskModel1 {
+  String offerStatus;
+  DateTime dateTime;
+  TaskModel1.onlyTaskStatus(this.offerStatus, this.dateTime);
 }

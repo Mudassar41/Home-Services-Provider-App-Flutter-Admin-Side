@@ -18,6 +18,8 @@ class FormFieldDesign {
             borderRadius: new BorderRadius.circular(5.0),
             borderSide: new BorderSide(color: CustomColors.lightGreen)),
         labelText: labeltext,
+        // isCollapsed: true,
+
         labelStyle: TextStyle(color: Colors.grey),
         prefixIcon: Icon(
           icon,

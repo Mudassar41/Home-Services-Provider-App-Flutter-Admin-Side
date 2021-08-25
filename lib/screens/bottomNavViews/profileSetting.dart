@@ -15,9 +15,12 @@ class ProfileSettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0.0,),
+      appBar: AppBar(
+        elevation: 0.0,
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: CustomColors.lightGreen,
+        onPressed: () {},
         child: Icon(Icons.edit_outlined),
       ),
       body: Obx(() {
@@ -176,6 +179,7 @@ class ProfileSettingView extends StatelessWidget {
                   onPressed: () {
                     sharedPreferences.updateBoolSp();
                     sharedPreferences.logOutCurrentuserSf();
+                    Navigator.pop(context);
                   },
                 ),
               )

@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LogoWidget(Sizing.heightMultiplier * 35, 'Welcome Back',
+                  LogoWidget(Sizing.heightMultiplier * 35, 'Welcome Provider',
                       'Sign In to continue'),
                   Padding(
                     padding: const EdgeInsets.only(
@@ -190,6 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (res == 'Data Exist') {
                                 CustomSnackBar.showSnackBar(
                                     'Login Success', context);
+
                                 service.addBoolToSp();
                               } else {
                                 CustomSnackBar.showSnackBar(
