@@ -13,8 +13,6 @@ This project is a starting point for a Flutter application.
 ![5a](https://user-images.githubusercontent.com/83106725/130961581-5a149658-cad6-4f80-b06c-6884e6f9663e.png)
 ![6a](https://user-images.githubusercontent.com/83106725/130961587-9d6bf76a-6754-4c35-90a0-4bd00e0a9bf7.png)
 ![7a](https://user-images.githubusercontent.com/83106725/130961588-208022b3-4236-4d97-b4d4-4f16ab754a03.png)
-
-
 ![9](https://user-images.githubusercontent.com/83106725/130960980-99b642b2-6dd3-442d-9563-3162af2bcfd7.png)
 ![10](https://user-images.githubusercontent.com/83106725/130960985-0f3b4b19-b53f-434e-8710-eb929c1eccb3.png)
 
